@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { User } from './user.interface';
+import { ForbiddenException } from 'src/utils/exception';
 
 @Injectable()
 export class UserService {
@@ -10,6 +11,7 @@ export class UserService {
   }
 
   findAll(): User[] {
-    return this.users;
+    // return this.users;
+    throw new ForbiddenException();
   }
 }

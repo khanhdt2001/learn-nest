@@ -4,15 +4,19 @@ import {
   Delete,
   Get,
   HttpCode,
+  HttpException,
   HttpStatus,
   Param,
+  ParseIntPipe,
   Post,
   Put,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { CreateUserDto, ListAllEntities, UpdateUserDto } from './dto';
 import { UserService } from './user.service';
 import { User } from './user.interface';
+import { HttpExceptionFilter } from 'src/utils/http_exception.filter';
 
 @Controller('users')
 export class UserController {
@@ -36,8 +40,7 @@ export class UserController {
   //   }
   //  option 3:
   @Get(':id')
-  findById(@Param('id') id: string): string {
-    console.log(id);
+  findById(@Param('id', ParseIntPipe) id: number): string {
     return `This action return user by id: #${id}`;
   }
 

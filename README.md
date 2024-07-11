@@ -32,3 +32,14 @@ You implement custom Nest middleware in either a function, or in a class with an
 
 Nest middleware fully supports Dependency Injection. Just as with providers and controllers, they are able to inject dependencies that are available within the same module. As usual, this is done through the constructor.
 
+### Exception filters
+Nest comes with a built-in exceptions layer which is responsible for processing all unhandled exceptions across an application. When an exception is not handled by your application code, it is caught by this layer, which then automatically sends an appropriate user-friendly response.
+
+### Pipes
+A pipe is a class annotated with the @Injectable() decorator, which implements the PipeTransform interface.
+
+Pipes have two typical use cases:
+
+- transformation: transform input data to the desired form (e.g., from string to integer)
+
+- validation: evaluate input data and if valid, simply pass it through unchanged; otherwise, throw an exception
