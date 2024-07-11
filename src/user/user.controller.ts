@@ -11,12 +11,16 @@ import {
   Query,
 } from '@nestjs/common';
 import { CreateUserDto, ListAllEntities, UpdateUserDto } from './dto';
+import { UserService } from './user.service';
+import { User } from './user.interface';
 
 @Controller('users')
 export class UserController {
+  constructor(private userService: UserService) {}
+
   @Get()
-  findAll(@Query() query: ListAllEntities): string {
-    return 'This action return all users';
+  async findAll(@Query() query: ListAllEntities): Promise<User[]> {
+    return this.userService.findAll();
   }
   //   To find by id can use 3 of this way
   //  option 1:
@@ -36,17 +40,18 @@ export class UserController {
     console.log(id);
     return `This action return user by id: #${id}`;
   }
+
   @Post()
   @HttpCode(HttpStatus.CREATED)
   async create(@Body() createUserDto: CreateUserDto) {
-    console.log({ createUserDto });
-
-    return 'This action add a new user';
+    this.userService.create(createUserDto);
   }
+
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
     return `This action updates user with id: #${id}`;
   }
+
   @Delete(':id')
   remove(@Param('id') id: string) {
     return `This action remove user with id: #${id}`;
