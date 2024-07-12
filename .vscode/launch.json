@@ -6,7 +6,7 @@
     "configurations": [
       {
         "type": "node",
-        "name": "Attach NestJS WS",
+        "name": "learn-nest",
         "stopOnEntry": false,
         "request": "launch",
         "runtimeExecutable": "npm",
