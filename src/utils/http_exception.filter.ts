@@ -19,6 +19,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
       data: exception.getResponse(),
       time_stamp: new Date().toISOString(),
       path: request.url,
+      method: request.method,
     });
   }
 }

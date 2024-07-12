@@ -11,12 +11,14 @@ import {
   Post,
   Put,
   Query,
-  UseFilters,
+  UsePipes,
 } from '@nestjs/common';
-import { CreateUserDto, ListAllEntities, UpdateUserDto } from './dto';
+import { CreateUserDto, ListAllEntities, UpdateUserDto } from './user.dto';
 import { UserService } from './user.service';
 import { User } from './user.interface';
-import { HttpExceptionFilter } from 'src/utils/http_exception.filter';
+import { ZodValidationPipe } from 'src/utils/zod_validation.pipe';
+import { createUserSchema } from './user.schema';
+import { ValidationPipe } from 'src/utils/validation.pipe';
 
 @Controller('users')
 export class UserController {
@@ -46,7 +48,7 @@ export class UserController {
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
-  async create(@Body() createUserDto: CreateUserDto) {
+  async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
     this.userService.create(createUserDto);
   }
 
