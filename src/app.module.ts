@@ -6,9 +6,10 @@ import {
 } from '@nestjs/common';
 import { UserModule } from './user/user.module';
 import { LoggerMiddleware } from './utils/logger.middleware';
-import { APP_FILTER, APP_PIPE } from '@nestjs/core';
+import { APP_FILTER, APP_GUARD, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './utils/http_exception.filter';
 import { ValidationPipe } from './utils/validation.pipe';
+import { AuthGuard } from './utils/auth.guard';
 
 @Module({
   imports: [UserModule],
@@ -21,6 +22,10 @@ import { ValidationPipe } from './utils/validation.pipe';
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: AuthGuard,
     },
   ],
 })

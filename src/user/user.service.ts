@@ -11,7 +11,6 @@ export class UserService {
   }
 
   findAll(): User[] {
-    // return this.users;
-    throw new ForbiddenException();
+    return this.users;
   }
 }
