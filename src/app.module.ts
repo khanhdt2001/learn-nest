@@ -16,10 +16,7 @@ import { LogginInterceptor } from './utils/logging.interceptor';
   imports: [UserModule],
   controllers: [],
   providers: [
-    {
-      provide: APP_FILTER,
-      useClass: HttpExceptionFilter,
-    },
+   
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
@@ -29,9 +26,13 @@ import { LogginInterceptor } from './utils/logging.interceptor';
       useClass: AuthGuard,
     },
     {
-      provide:APP_INTERCEPTOR,
-      useClass: LogginInterceptor
-    }
+      provide: APP_INTERCEPTOR,
+      useClass: LogginInterceptor,
+    },
+     {
+      provide: APP_FILTER,
+      useClass: HttpExceptionFilter,
+    },
   ],
 })
 export class AppModule implements NestModule {
