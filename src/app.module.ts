@@ -16,7 +16,6 @@ import { LogginInterceptor } from './utils/logging.interceptor';
   imports: [UserModule],
   controllers: [],
   providers: [
-   
     {
       provide: APP_PIPE,
       useClass: ValidationPipe,
@@ -29,7 +28,7 @@ import { LogginInterceptor } from './utils/logging.interceptor';
       provide: APP_INTERCEPTOR,
       useClass: LogginInterceptor,
     },
-     {
+    {
       provide: APP_FILTER,
       useClass: HttpExceptionFilter,
     },
