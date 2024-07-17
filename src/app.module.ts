@@ -11,9 +11,26 @@ import { HttpExceptionFilter } from './utils/http_exception.filter';
 import { ValidationPipe } from './utils/validation.pipe';
 import { AuthGuard } from './utils/auth.guard';
 import { LogginInterceptor } from './utils/logging.interceptor';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { DataSource } from 'typeorm';
+import { User } from './user/user.entity';
 
 @Module({
-  imports: [UserModule],
+  imports: [UserModule, 
+    TypeOrmModule.forRoot(
+    {
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'v8hlDV0yMAHHlIurYupj',
+      database: 'simplebank',
+      // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+      entities: [User],
+
+      synchronize: true,
+    }),
+  ],
   controllers: [],
   providers: [
     {
@@ -35,6 +52,7 @@ import { LogginInterceptor } from './utils/logging.interceptor';
   ],
 })
 export class AppModule implements NestModule {
+  constructor(private dataSource: DataSource) {}
   configure(consumer: MiddlewareConsumer) {
     consumer
       .apply(LoggerMiddleware)

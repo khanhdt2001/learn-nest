@@ -1,16 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { User } from './user.interface';
 import { ForbiddenException } from 'src/utils/exception';
+import { InjectRepository } from '@nestjs/typeorm';
+import { User } from './user.entity';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class UserService {
-  private readonly users: User[] = [];
 
-  create(user: User) {
-    this.users.push(user);
-  }
+  constructor(
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+  ) {}
 
-  findAll(): User[] {
-    return this.users;
+  findAll(): Promise<User[]> {
+    return this.usersRepository.find();
   }
 }

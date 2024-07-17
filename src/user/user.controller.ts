@@ -15,10 +15,10 @@ import {
 } from '@nestjs/common';
 import { CreateUserDto, ListAllEntities, UpdateUserDto } from './user.dto';
 import { UserService } from './user.service';
-import { User } from './user.interface';
 import { ZodValidationPipe } from 'src/utils/zod_validation.pipe';
 import { createUserSchema } from './user.schema';
 import { ValidationPipe } from 'src/utils/validation.pipe';
+import { User } from './user.entity';
 
 @Controller('users')
 export class UserController {
@@ -46,11 +46,11 @@ export class UserController {
     return `This action return user by id: #${id}`;
   }
 
-  @Post()
-  @HttpCode(HttpStatus.CREATED)
-  async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
-    this.userService.create(createUserDto);
-  }
+  // @Post()
+  // @HttpCode(HttpStatus.CREATED)
+  // async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
+  //   this.userService.create(createUserDto);
+  // }
 
   @Put(':id')
   update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
