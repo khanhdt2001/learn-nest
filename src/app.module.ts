@@ -11,27 +11,18 @@ import { HttpExceptionFilter } from './utils/http_exception.filter';
 import { ValidationPipe } from './utils/validation.pipe';
 import { AuthGuard } from './utils/auth.guard';
 import { LogginInterceptor } from './utils/logging.interceptor';
-import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
-import { User } from './user/user.entity';
 import { DatabaseModule } from './db/database.module';
+import { ConfigModule } from '@nestjs/config';
+import configuration from './config/configuration';
 
 @Module({
   imports: [
     UserModule,
     DatabaseModule,
-    // TypeOrmModule.forRoot({
-    //   type: 'postgres',
-    //   host: 'localhost',
-    //   port: 5432,
-    //   username: 'postgres',
-    //   password: 'v8hlDV0yMAHHlIurYupj',
-    //   database: 'simplebank',
-    //   // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-    //   entities: [User],
-
-    //   synchronize: true,
-    // }),
+    ConfigModule.forRoot({
+      isGlobal: true,
+    }),
   ],
   controllers: [],
   providers: [
