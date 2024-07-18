@@ -14,22 +14,24 @@ import { LogginInterceptor } from './utils/logging.interceptor';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DataSource } from 'typeorm';
 import { User } from './user/user.entity';
+import { DatabaseModule } from './db/database.module';
 
 @Module({
-  imports: [UserModule, 
-    TypeOrmModule.forRoot(
-    {
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'postgres',
-      password: 'v8hlDV0yMAHHlIurYupj',
-      database: 'simplebank',
-      // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-      entities: [User],
+  imports: [
+    UserModule,
+    DatabaseModule,
+    // TypeOrmModule.forRoot({
+    //   type: 'postgres',
+    //   host: 'localhost',
+    //   port: 5432,
+    //   username: 'postgres',
+    //   password: 'v8hlDV0yMAHHlIurYupj',
+    //   database: 'simplebank',
+    //   // entities: [__dirname + '/../**/*.entity{.ts,.js}'],
+    //   entities: [User],
 
-      synchronize: true,
-    }),
+    //   synchronize: true,
+    // }),
   ],
   controllers: [],
   providers: [
