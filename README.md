@@ -64,3 +64,24 @@ Interceptors have a set of useful capabilities which are inspired by the Aspect 
 - transform the exception thrown from a function
 - extend the basic function behavior
 - completely override a function depending on specific conditions (e.g., for caching purposes)
+
+### Custom route decorators
+Nest provides a set of useful param decorators that you can use together with the HTTP route handlers. 
+ex: ```@Request(), @Req()	req```
+```
+import { createParamDecorator, ExecutionContext } from '@nestjs/common';
+
+export const User = createParamDecorator(
+  (data: unknown, ctx: ExecutionContext) => {
+    const request = ctx.switchToHttp().getRequest();
+    return request.user;
+  },
+);
+
+
+@Get()
+async findOne(@User() user: UserEntity) {
+  console.log(user);
+}
+
+```
