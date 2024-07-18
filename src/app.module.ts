@@ -15,10 +15,12 @@ import { DataSource } from 'typeorm';
 import { DatabaseModule } from './db/database.module';
 import { ConfigModule } from '@nestjs/config';
 import configuration from './config/configuration';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
     UserModule,
+    AuthModule,
     DatabaseModule,
     ConfigModule.forRoot({
       isGlobal: true,

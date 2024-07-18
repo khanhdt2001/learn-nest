@@ -6,10 +6,12 @@ import { ConfigModule, ConfigService } from '@nestjs/config'; // Import ConfigSe
 @Module({
   imports: [
     ConfigModule,
-     TypeOrmModule.forRootAsync({
+    TypeOrmModule.forRootAsync({
       imports: [ConfigModule],
-      useFactory: async (configService: ConfigService) => typeOrmConfig(configService),
+      useFactory: async (configService: ConfigService) =>
+        typeOrmConfig(configService),
       inject: [ConfigService],
-     })]
+    }),
+  ],
 })
 export class DatabaseModule {}

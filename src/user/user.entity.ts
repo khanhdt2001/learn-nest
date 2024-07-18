@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   Column,
   CreateDateColumn,
@@ -21,6 +22,7 @@ export class User {
   email: string;
 
   @Column('text')
+  @Exclude()
   password: string;
 
   @CreateDateColumn()
@@ -28,4 +30,7 @@ export class User {
 
   @UpdateDateColumn()
   updated_at: Date;
+  constructor(partial: Partial<User>) {
+    Object.assign(this, partial);
+  }
 }

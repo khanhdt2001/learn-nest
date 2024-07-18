@@ -7,9 +7,6 @@ import {
   HttpException,
 } from '@nestjs/common';
 import { Observable, tap, catchError, throwError } from 'rxjs';
-import { BadRequestExceptionCustom, ForbiddenException } from './exception';
-import { log } from 'console';
-import { date } from 'zod';
 
 @Injectable()
 export class LogginInterceptor implements NestInterceptor {
