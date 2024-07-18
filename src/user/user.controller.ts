@@ -2,7 +2,9 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  createParamDecorator,
   Delete,
+  ExecutionContext,
   Get,
   HttpCode,
   HttpException,
@@ -21,21 +23,23 @@ import { UserService } from './user.service';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
-import { Public } from 'src/constant';
+import { Public } from 'src/constant/constant';
+import { UserDecorator } from 'src/auth/user.decorator';
 
 @Controller('users')
 export class UserController {
   constructor(private userService: UserService) {}
 
-  @UseInterceptors(ClassSerializerInterceptor)
   @Get()
+  @UseInterceptors(ClassSerializerInterceptor)
   async findAll(@Query() query): Promise<User[]> {
     return this.userService.findAll();
   }
 
-  @Get(':id')
-  findById(@Param('id', ParseIntPipe) id: number): string {
-    return `This action return user by id: #${id}`;
+  @Get('profile')
+  @UseInterceptors(ClassSerializerInterceptor)
+  findById(@UserDecorator() id: any): Promise<User> {
+    return this.userService.findOneById(id.sub);
   }
 
   @Post()
