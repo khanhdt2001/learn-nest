@@ -122,3 +122,9 @@ A circular dependency occurs when two classes depend on each other. For example,
     ) {}
   } 
   ```
+
+
+
+```const response = pm.response.json();
+const jwt = response.access_token;
+pm.environment.set("jwt", jwt);```
