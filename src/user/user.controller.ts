@@ -14,6 +14,7 @@ import {
   Post,
   Put,
   Query,
+  UseFilters,
   UseGuards,
   UseInterceptors,
   UsePipes,
@@ -23,7 +24,6 @@ import { UserService } from './user.service';
 import { ValidationPipe } from 'src/utils/validation.pipe';
 import { User } from './user.entity';
 import { CreateUserDto } from './dto/createUser.dto';
-import { Public } from 'src/constant/constant';
 import { UserDecorator } from 'src/auth/user.decorator';
 
 @Controller('users')
@@ -43,9 +43,8 @@ export class UserController {
   }
 
   @Post()
-  @HttpCode(HttpStatus.CREATED)
   async create(@Body(new ValidationPipe()) createUserDto: CreateUserDto) {
-    this.userService.createUser(createUserDto);
+    await this.userService.createUser(createUserDto);
   }
 }
 // The @Controller decorator can take

@@ -27,7 +27,7 @@ export class LogginInterceptor implements NestInterceptor {
         status = err.status || 500;
         response.describtion = err.response || 'Internal server error';
         console.log(
-          `Handle request fail: ${request.method} ${request.path} ${Date.now() - now}ms`,
+          `Handle request fail: ${request.method} ${request.path} ${Date.now() - now}ms ${JSON.stringify(err) }`,
         );
         return throwError(
           () => new HttpException(response, status, { cause: err }),

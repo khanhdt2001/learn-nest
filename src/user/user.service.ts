@@ -1,4 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import {
+  HttpException,
+  HttpStatus,
+  Injectable,
+  InternalServerErrorException,
+  NotFoundException,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
@@ -16,13 +22,21 @@ export class UserService {
   findAll(): Promise<User[]> {
     return this.usersRepository.find();
   }
-  createUser(user: CreateUserDto): Promise<User> {
+
+  async createUser(user: CreateUserDto): Promise<User> {
     const hashPwd = bcrypt.hashSync(user.password, APP_CONFIG.SALT);
     user.password = hashPwd;
     const newUser = this.usersRepository.create(user);
-    return this.usersRepository.save(newUser);
+    try {
+      return await this.usersRepository.save(newUser);
+    } catch (error) {
+      throw new HttpException(
+        `${error.detail}`,
+        HttpStatus.INTERNAL_SERVER_ERROR,
+      );
+    }
   }
-  findOneByName(username: string): Promise<User> {
+  async findOneByName(username: string): Promise<User> {
     return this.usersRepository.findOne({ where: { name: username } });
   }
   findOneById(id: number): Promise<User> {
