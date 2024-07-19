@@ -85,3 +85,40 @@ async findOne(@User() user: UserEntity) {
 }
 
 ```
+
+## Fundamentals
+### Injection scopes 
+For people coming from different programming language backgrounds, it might be unexpected to learn that in Nest, almost everything is shared across incoming requests. We have a connection pool to the database, singleton services with global state, etc. Remember that Node.js doesn't follow the request/response Multi-Threaded Stateless Model in which every request is processed by a separate thread. Hence, using singleton instances is fully safe for our applications.
+
+A provider can have any of the following scopes:
+- `DEFAULT`	A single instance of the provider is shared across the entire application. The instance lifetime is tied directly to the application lifecycle. Once the application has bootstrapped, all singleton providers have been instantiated. Singleton scope is used by default.
+- `REQUEST`	A new instance of the provider is created exclusively for each incoming request. The instance is garbage-collected after the request has completed processing.
+- `TRANSIENT`	Transient providers are not shared across consumers. Each consumer that injects a transient provider will receive a new, dedicated instance.
+
+The REQUEST scope bubbles up the injection chain. A controller that depends on a request-scoped provider will, itself, be request-scoped.
+
+
+### Circular dependency
+A circular dependency occurs when two classes depend on each other. For example, class A needs class B, and class B also needs class A. Circular dependencies can arise in Nest between modules and between providers.
+
+- Forward reference: \
+  A forward reference allows Nest to reference classes which aren't yet defined using the forwardRef() utility function. For example, if CatsService and CommonService depend on each other, both sides of the relationship can use @Inject() and the forwardRef() utility to resolve the circular dependency. Otherwise Nest won't instantiate them because all of the essential metadata won't be available. Here's an example:
+  ```
+  <!-- cat.service.ts -->
+  @Injectable()
+  export class CatsService {
+    constructor(
+      @Inject(forwardRef(() => CommonService))
+      private commonService: CommonService,
+    ) {}
+  }
+
+  <!-- common.service.ts -->
+  @Injectable()
+  export class CommonService {
+    constructor(
+      @Inject(forwardRef(() => CatsService))
+      private catsService: CatsService,
+    ) {}
+  } 
+  ```

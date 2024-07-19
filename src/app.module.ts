@@ -9,7 +9,7 @@ import { LoggerMiddleware } from './utils/logger.middleware';
 import { APP_FILTER, APP_GUARD, APP_INTERCEPTOR, APP_PIPE } from '@nestjs/core';
 import { HttpExceptionFilter } from './utils/http_exception.filter';
 import { ValidationPipe } from './utils/validation.pipe';
-import { AuthGuard } from './utils/auth.guard';
+import { AuthGuard } from './auth/auth.guard';
 import { LogginInterceptor } from './utils/logging.interceptor';
 import { DataSource } from 'typeorm';
 import { DatabaseModule } from './db/database.module';
